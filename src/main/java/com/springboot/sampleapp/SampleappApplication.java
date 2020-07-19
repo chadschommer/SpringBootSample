@@ -1,7 +1,8 @@
 package com.springboot.sampleapp;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,20 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SampleappApplication {
 
-	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		SpringApplication.run(SampleappApplication.class, args);
 	}
 
 	@GetMapping("/hello")
-	public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
+	public String hello(@RequestParam(value = "name", defaultValue = "World") final String name) {
 		return String.format("Hello %s!", name);
 	}
 
 	@GetMapping("/timestamp")
-	public String timestamp() {
+	public Map<String, Timestamp> timestamp() {
 
-		return new Timestamp(System.currentTimeMillis()).toString();
+		Map<String, Timestamp> stampMap = new HashMap<String, Timestamp>();
+		stampMap.put("timestamp", new Timestamp(System.currentTimeMillis()));		
+
+		return stampMap;
     }
 }
