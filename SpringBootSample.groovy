@@ -7,11 +7,6 @@ def label = "worker-${UUID.randomUUID().toString()}"
 def dockerbuild() {
     sh """
     docker build --no-cache --network=host -t schommer21/springboot-sample:dev -f Dockerfile .
-    """
-}
-
-def dockerpush() {
-    sh """
     docker push schommer21/springboot-sample:dev
     """
 }
@@ -35,11 +30,6 @@ podTemplate(label: label, containers: [
                     withEnv(["GIT_SSH_COMMAND=ssh -i $GIT_KEY -o StrictHostKeyChecking=no"]) {
                         dockerbuild()
                     }
-                }
-
-                docker.withRegistry('https://registry.hub.docker.com', 'docker-registry-personal') {
-                    app.push("${env.BUILD_NUMBER}"
-                    app.push("latest")
                 }
             }
         }
