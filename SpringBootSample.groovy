@@ -23,10 +23,9 @@ podTemplate(label: label, containers: [
 ) {
     node(label) {
         stage('Build Container') {
-
-            app = docker.build("schommer21/springboot-sample")
-
             container('docker-build') {
+
+                app = docker.build("schommer21/springboot-sample")
 
                 git url: repo, credentialsId: 'personal-ssh-github', branch: 'master'
                 withCredentials([sshUserPrivateKey(credentialsId: 'personal-ssh-github', keyFileVariable: 'GIT_KEY')]) {
