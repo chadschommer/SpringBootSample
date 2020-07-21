@@ -23,6 +23,9 @@ podTemplate(label: label, containers: [
 ) {
     node(label) {
         stage('Build Container') {
+
+            app = docker.build("schommer21/springboot-sample")
+
             container('docker-build') {
 
                 git url: repo, credentialsId: 'personal-ssh-github', branch: 'master'
@@ -33,7 +36,8 @@ podTemplate(label: label, containers: [
                 }
 
                 docker.withRegistry('https://registry.hub.docker.com', 'docker-registry-personal') {
-                    dockerpush()
+                    app.push("${env.BUILD_NUMBER}"
+                    app.push("latest")
                 }
             }
         }
