@@ -5,10 +5,12 @@ def repo = "git@github.com:schommer21/SpringBootSample.git"
 def label = "worker-${UUID.randomUUID().toString()}"
 
 def dockerbuild() {
-    sh """
-    docker build --no-cache --network=host -t schommer21/springboot-sample:dev -f Dockerfile .
-    docker push schommer21/springboot-sample:dev
-    """
+    docker.withRegistry('docker.io', 'docker-registry-personal') {
+        sh """
+        docker build --no-cache --network=host -t schommer21/springboot-sample:dev -f Dockerfile .
+        docker push schommer21/springboot-sample:dev
+        """
+    }
 }
 
 podTemplate(label: label, containers: [
@@ -19,13 +21,10 @@ podTemplate(label: label, containers: [
     node(label) {
         stage('Build Container') {
             container('docker-build') {
-                docker.logout
-                docker.withRegistry('docker.io', 'docker-registry-personal') {
-                    git url: repo, credentialsId: 'personal-ssh-github', branch: 'master'
-                    withCredentials([sshUserPrivateKey(credentialsId: 'personal-ssh-github', keyFileVariable: 'GIT_KEY')]) {
-                        withEnv(["GIT_SSH_COMMAND=ssh -i $GIT_KEY -o StrictHostKeyChecking=no"]) {
-                            dockerbuild()
-                        }
+                git url: repo, credentialsId: 'personal-ssh-github', branch: 'master'
+                withCredentials([sshUserPrivateKey(credentialsId: 'personal-ssh-github', keyFileVariable: 'GIT_KEY')]) {
+                    withEnv(["GIT_SSH_COMMAND=ssh -i $GIT_KEY -o StrictHostKeyChecking=no"]) {
+                        dockerbuild()
                     }
                 }
             }
