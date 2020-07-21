@@ -32,7 +32,7 @@ podTemplate(label: label, containers: [
                     }
                 }
 
-                docker.withRegistry('schommer21/springboot-sample', 'docker-registry-personal') {
+                docker.withRegistry('https://registry.hub.docker.com', 'docker-registry-personal') {
                     dockerpush()
                 }
             }
