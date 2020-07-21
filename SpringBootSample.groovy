@@ -2,7 +2,7 @@ import groovy.json.JsonSlurper
 import java.text.SimpleDateFormat
 
 def branch = "master"
-def repo = "https://github.com/schommer21/SpringBootSample.git"
+def repo = "git@github.com:schommer21/SpringBootSample.git"
 def label = "worker-${UUID.randomUUID().toString()}"
 
 def dockerbuild() {
@@ -20,7 +20,7 @@ podTemplate(label: label, containers: [
     node(label) {
         stage('Build Container') {
             container('docker-build') {
-                git url: repo, credentialsId: 'personal-github', branch: branch {
+                git url: repo, credentialsId: 'personal-ssh-github', branch: branch {
                     withEnv(["GIT_SSH_COMMAND=ssh -i $GIT_KEY -o StrictHostKeyChecking=no"]) {
                         dockerbuild()
                     }
