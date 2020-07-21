@@ -20,7 +20,7 @@ podTemplate(label: label, containers: [
     node(label) {
         stage('Build Container') {
             container('docker-build') {
-                git url: repo, credentialsId: 'personal-github', branch: 'master' {
+                git url: repo, credentialsId: 'personal-ssh-github', branch: 'master' {
                     withEnv(["GIT_SSH_COMMAND=ssh -i $GIT_KEY -o StrictHostKeyChecking=no"]) {
                         dockerbuild()
                     }
