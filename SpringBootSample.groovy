@@ -22,11 +22,14 @@ podTemplate(label: label, containers: [
         volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')]
 ) {
     node(label) {
+
+        def app
+
         stage('Build Container') {
+
+            app = docker.build("schommer21/springboot-sample")
+
             container('docker-build') {
-
-                app = docker.build("schommer21/springboot-sample")
-
                 git url: repo, credentialsId: 'personal-ssh-github', branch: 'master'
                 withCredentials([sshUserPrivateKey(credentialsId: 'personal-ssh-github', keyFileVariable: 'GIT_KEY')]) {
                     withEnv(["GIT_SSH_COMMAND=ssh -i $GIT_KEY -o StrictHostKeyChecking=no"]) {
