@@ -17,12 +17,6 @@ podTemplate(label: label, containers: [
         volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')]
 ) {
     node(label) {
-        stage('Build Jar') {
-            container('docker-build') {
-
-                ./mvnw package && java -jar target/gs-spring-boot-docker-0.1.0.jar
-            }
-        }
         stage('Build Container') {
             container('docker-build') {
 
