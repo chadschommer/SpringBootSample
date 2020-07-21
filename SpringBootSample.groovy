@@ -33,6 +33,7 @@ podTemplate(label: label, containers: [
                 }
 
                 docker.withRegistry('https://registry.hub.docker.com', 'docker-registry-personal') {
+                    def app
                     app = docker.build("schommer21/springboot-sample")
                     app.push("${env.BUILD_NUMBER}"
                     app.push("latest")
