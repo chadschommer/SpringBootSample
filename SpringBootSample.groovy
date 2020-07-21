@@ -7,7 +7,7 @@ def label = "worker-${UUID.randomUUID().toString()}"
 def dockerbuild() {
     docker.withRegistry('https://docker.io', 'docker-registry-personal') {
         sh """
-        docker build --no-cache --network=host -t schommer21/springboot-sample:dev -f Dockerfile .
+        docker build -t schommer21/springboot-sample:dev -f Dockerfile .
         docker push schommer21/springboot-sample:dev
         """
     }
