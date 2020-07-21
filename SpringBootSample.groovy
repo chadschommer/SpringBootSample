@@ -29,12 +29,11 @@ podTemplate(label: label, containers: [
                 withCredentials([sshUserPrivateKey(credentialsId: 'personal-ssh-github', keyFileVariable: 'GIT_KEY')]) {
                     withEnv(["GIT_SSH_COMMAND=ssh -i $GIT_KEY -o StrictHostKeyChecking=no"]) {
                         dockerbuild()
-                        app = docker.build("schommer21/springboot-sample")
                     }
                 }
 
-                app = docker.build("schommer21/springboot-sample")
                 docker.withRegistry('https://registry.hub.docker.com', 'docker-registry-personal') {
+                    app = docker.build("schommer21/springboot-sample")
                     app.push("${env.BUILD_NUMBER}"
                     app.push("latest")
                 }
