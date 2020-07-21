@@ -19,7 +19,7 @@ podTemplate(label: label, containers: [
     node(label) {
         stage('Build Container') {
             container('docker-build') {
-
+                docker.logout
                 docker.withRegistry('docker.io', 'docker-registry-personal') {
                     git url: repo, credentialsId: 'personal-ssh-github', branch: 'master'
                     withCredentials([sshUserPrivateKey(credentialsId: 'personal-ssh-github', keyFileVariable: 'GIT_KEY')]) {
