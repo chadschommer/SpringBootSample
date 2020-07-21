@@ -6,6 +6,7 @@ def label = "worker-${UUID.randomUUID().toString()}"
 
 def dockerbuild() {
     sh """
+    ./mvnw package && java -jar target/gs-spring-boot-docker-0.1.0.jar
     docker build --no-cache --network=host -t schommer21/springboot-sample:dev -f Dockerfile .
     docker push schommer21/springboot-sample:dev
     """
