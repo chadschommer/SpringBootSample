@@ -20,10 +20,12 @@ podTemplate(label: label, containers: [
         stage('Build Container') {
             container('docker-build') {
 
-                git url: repo, credentialsId: 'personal-ssh-github', branch: 'master'
-                withCredentials([sshUserPrivateKey(credentialsId: 'personal-ssh-github', keyFileVariable: 'GIT_KEY')]) {
-                    withEnv(["GIT_SSH_COMMAND=ssh -i $GIT_KEY -o StrictHostKeyChecking=no"]) {
-                        dockerbuild()
+                docker.withRegistry('https://registry.hub.docker.com', 'docker-registry-personal') {
+                    git url: repo, credentialsId: 'personal-ssh-github', branch: 'master'
+                    withCredentials([sshUserPrivateKey(credentialsId: 'personal-ssh-github', keyFileVariable: 'GIT_KEY')]) {
+                        withEnv(["GIT_SSH_COMMAND=ssh -i $GIT_KEY -o StrictHostKeyChecking=no"]) {
+                            dockerbuild()
+                        }
                     }
                 }
             }
