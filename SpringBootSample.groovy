@@ -24,8 +24,8 @@ podTemplate(label: label, containers: [
                 git url: repo, credentialsId: 'personal-ssh-github', branch: 'master'
                 withCredentials([sshUserPrivateKey(credentialsId: 'personal-ssh-github', keyFileVariable: 'GIT_KEY')]) {
                     withEnv(["GIT_SSH_COMMAND=ssh -i $GIT_KEY -o StrictHostKeyChecking=no"]) {
-                        // dockerbuild()
-                        builtImage = docker.build("springboot-sample:${env.BUILD_NUMBER}", ".")
+                        dockerbuild()
+                        // builtImage = docker.build("springboot-sample:${env.BUILD_NUMBER}", ".")
                     }
                 }
 
