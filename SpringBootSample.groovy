@@ -5,7 +5,7 @@ def repo = "git@github.com:schommer21/SpringBootSample.git"
 def label = "worker-${UUID.randomUUID().toString()}"
 
 def dockerbuild() {
-    withDockerRegistry('https://docker.io', 'docker-registry-personal') {
+    withDockerRegistry(registry:[url: "https://docker.io", credentialsId: "docker-registry-personal"]) {
         sh """
         docker build -t schommer21/springboot-sample:${env.BUILD_NUMBER} -f Dockerfile .
         docker push schommer21/springboot-sample:${env.BUILD_NUMBER}
