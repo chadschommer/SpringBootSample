@@ -6,7 +6,7 @@ def label = "worker-${UUID.randomUUID().toString()}"
 def tag = 
 
 def dockerbuild() {
-    withDockerRegistry('https://docker.io', 'docker-registry-personal') {
+    docker.withRegistry('https://docker.io', 'docker-registry-personal') {
         sh """
         docker build -t schommer21/springboot-sample:${env.BUILD_NUMBER} -f Dockerfile .
         docker push schommer21/springboot-sample:${env.BUILD_NUMBER}
