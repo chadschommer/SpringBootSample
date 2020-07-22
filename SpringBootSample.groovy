@@ -3,10 +3,9 @@ import java.text.SimpleDateFormat
 
 def repo = "git@github.com:schommer21/SpringBootSample.git"
 def label = "worker-${UUID.randomUUID().toString()}"
-def tag = 
 
 def dockerbuild() {
-    docker.withRegistry('https://docker.io', 'docker-registry-personal') {
+    withDockerRegistry('https://docker.io', 'docker-registry-personal') {
         sh """
         docker build -t schommer21/springboot-sample:${env.BUILD_NUMBER} -f Dockerfile .
         docker push schommer21/springboot-sample:${env.BUILD_NUMBER}
