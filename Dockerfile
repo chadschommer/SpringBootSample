@@ -4,7 +4,6 @@
 FROM maven:3.6.3-adoptopenjdk-8 AS build
 COPY src /home/app/src
 COPY pom.xml /home/app
-RUN mvn dependency:resolve -X
 RUN mvn -f /home/app/pom.xml clean package
 
 #
