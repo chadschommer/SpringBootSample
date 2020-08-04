@@ -32,8 +32,8 @@ public class SampleappApplication {
 		return stampMap;
 	}
 
-	// @GetMapping("/goodbye")
-	// public String goodbye(@RequestParam(value = "name", defaultValue = "World") final String name) {
-	// 	return String.format("Goodbye %s!", name);
-	// }
+	@GetMapping("/goodbye")
+	public String goodbye(@RequestParam(value = "name", defaultValue = "World") final String name) {
+		return String.format("Goodbye %s!", name);
+	}
 }
