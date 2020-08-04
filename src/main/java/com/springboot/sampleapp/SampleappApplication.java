@@ -30,5 +30,10 @@ public class SampleappApplication {
 		stampMap.put("timestamp", new Timestamp(System.currentTimeMillis()));		
 
 		return stampMap;
-    }
+	}
+
+	@GetMapping("/goodbye")
+	public String hello(@RequestParam(value = "name", defaultValue = "World") final String name) {
+		return String.format("Goodbye %s!", name);
+	}
 }
