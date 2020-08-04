@@ -33,7 +33,7 @@ public class SampleappApplication {
 	}
 
 	@GetMapping("/goodbye")
-	public String hello(@RequestParam(value = "name", defaultValue = "World") final String name) {
+	public String goodbye(@RequestParam(value = "name", defaultValue = "World") final String name) {
 		return String.format("Goodbye %s!", name);
 	}
 }
